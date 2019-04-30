@@ -2,10 +2,13 @@ version: "3"
 services:
   nginx:
     image: jamesjan/mynginx:latest
-    container_name: mynginx
     restart: always
     network_mode: "bridge"
-    volumes:
-      - ./wwwroot/:/var/www/
-    build:
-      context: .
+    ports:
+      - "8000:80"
+    deploy:
+      replicas: 10
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
